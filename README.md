@@ -1,105 +1,191 @@
-# Restaurant QR Ordering System
+Restaurant Order Management System
+📌 Giới thiệu
 
-Hệ thống quản lý order nhà hàng cho phép **khách tự gọi món bằng điện thoại** thông qua việc quét **mã QR tại bàn**. Order của khách sẽ được gửi trực tiếp đến hệ thống bếp và thu ngân, giúp giảm thời gian chờ và hạn chế sai sót trong quá trình gọi món.
+Restaurant Order Management System là hệ thống quản lý gọi món cho nhà hàng. Khách (Guest) có thể xem menu và đặt món; Quản trị viên (Admin) có thể quản lý menu và đơn hàng.
 
----
+Dự án được thực hiện nhằm phục vụ mục tiêu học tập và thực hành phân tích – thiết kế hệ thống thông tin.
 
-## 1. 🎯 Mục tiêu hệ thống
+🎯 Mục tiêu dự án
 
-- Khách không cần gọi nhân viên để order
-- Mỗi bàn có một mã QR riêng
-- Order tự động chuyển đến:
-  - Kitchen Display (bếp/barista)
-  - Cashier (thu ngân)
-- Giảm thao tác ghi tay và nhầm lẫn món
-- Hỗ trợ quản lý menu và báo cáo doanh thu cơ bản
+Xây dựng hệ thống gọi món đơn giản cho nhà hàng
 
----
+Hỗ trợ khách đặt món trực tuyến
 
-## 2. 👥 Đối tượng sử dụng
+Hỗ trợ quản trị viên quản lý menu và đơn hàng
 
-- Khách hàng
-- Nhân viên phục vụ
-- Nhân viên bếp
-- Thu ngân
-- Quản lý nhà hàng (Admin)
+Áp dụng quy trình phát triển phần mềm:
 
----
+phân tích yêu cầu
 
-## 3. 🧩 Chức năng chính
+thiết kế
 
-### Khách hàng
-- Quét mã QR tại bàn
-- Xem menu theo danh mục
-- Chọn món và ghi chú
-- Gửi order
-- Theo dõi trạng thái món
-- Gọi nhân viên hỗ trợ
+cài đặt
 
-### Bếp / Kitchen
-- Nhận danh sách món mới order
-- Cập nhật trạng thái:
-  - Pending
-  - Preparing
-  - Completed
+kiểm thử
 
-### Thu ngân
-- Xem hóa đơn theo bàn
-- Tính tổng tiền
-- Thanh toán (tiền mặt/chuyển khoản)
-- Đóng order
+👥 Đối tượng người dùng
+1. Guest (Khách hàng)
 
-### Admin / Manager
-- Quản lý món ăn và danh mục
-- Cập nhật giá, trạng thái bán
-- Quản lý bàn và mã QR
-- Xem báo cáo cơ bản
+Xem menu món ăn
 
----
+Xem thông tin chi tiết món
 
-## 4. 🏗️ Kiến trúc hệ thống (định hướng)
+Thêm món vào giỏ hàng
 
-- Web-based application
-- QR link theo bàn:
-  - `https://domain/order?table={table_id}`
+Tạo đơn đặt món
 
-### Thành phần
-- Customer Web App
-- Admin Dashboard
-- Kitchen Display System
-- Backend API
-- Database
+Theo dõi trạng thái đơn hàng
 
----
+2. Admin (Quản trị viên)
 
-## 5. 🗄️ Thiết kế cơ sở dữ liệu (tóm tắt bảng)
+Đăng nhập hệ thống
 
-- `Users`
-- `Tables`
-- `MenuCategories`
-- `MenuItems`
-- `Orders`
-- `OrderItems`
-- `Payments`
+Quản lý món ăn (thêm/sửa/xóa)
 
-Chi tiết ERD được trình bày trong thư mục `/docs`.
+Quản lý danh mục món
 
----
+Xem danh sách đơn đặt món
 
-## 6. 📂 Cấu trúc thư mục dự án
+Cập nhật trạng thái đơn hàng
 
-```text
-docs/                     # Requirement, Specification, Design
-  SRS.md
-  UseCaseDiagram.png
-  ERD.png
-  ClassDiagram.png
-  SequenceDiagrams/
+Xem thống kê đơn hàng cơ bản
 
-backend/                  # Source code backend
+🏗️ Chức năng chính của hệ thống
+Guest
 
-frontend/                 # Web/mobile client
+Xem danh sách món ăn theo danh mục
 
-sql/                      # Script tạo database
+Thêm món vào giỏ hàng
 
-README.md
+Cập nhật số lượng món
+
+Gửi đơn hàng
+
+Nhập thông tin liên hệ/bàn
+
+Xem trạng thái đơn:
+
+Pending
+
+Preparing
+
+Completed
+
+Cancelled
+
+Admin
+
+Đăng nhập và đăng xuất
+
+Quản lý người dùng (tùy chọn)
+
+Quản lý menu:
+
+thêm món
+
+sửa món
+
+xóa món
+
+Quản lý đơn hàng:
+
+xem chi tiết đơn
+
+cập nhật trạng thái
+
+đánh dấu đã thanh toán
+
+🛠️ Công nghệ dự kiến sử dụng
+
+Ngôn ngữ lập trình: Python / Java / C++ (tùy nhóm chọn)
+
+IDE: VS Code, PyCharm, Eclipse, NetBeans
+
+Cơ sở dữ liệu: MySQL / PostgreSQL / SQLite
+
+Vẽ sơ đồ: diagrams.net (draw.io)
+
+Quản lý mã nguồn: GitHub / GitLab
+
+Viết tài liệu: Markdown / Word
+
+Kiểm thử: Excel test cases
+
+🗂️ Cấu trúc thư mục dự án (dự kiến)
+Restaurant-Order-Management-System/
+│
+├── docs/
+│   ├── Requirement-Analysis.md
+│   ├── SRS.md
+│   ├── System-Design.md
+│   └── diagrams/
+│
+├── src/
+│   ├── backend/
+│   ├── frontend/
+│   └── database/
+│
+├── sql/
+│   └── schema.sql
+│
+├── README.md
+└── LICENSE
+
+📑 Các giai đoạn thực hiện dự án
+Stage 1 – Phân tích và đặc tả yêu cầu
+
+Functional Requirements
+
+Non-functional Requirements
+
+Data Flow Diagram (DFD)
+
+Use Case Diagram
+
+Class Diagram
+
+Stage 2 – Thiết kế
+
+Thiết kế giao diện người dùng
+
+Thiết kế cơ sở dữ liệu
+
+bảng
+
+khóa chính
+
+khóa ngoại
+
+Stage 3 – Cài đặt
+
+Xây dựng chương trình
+
+Kết nối cơ sở dữ liệu
+
+Triển khai chức năng chính
+
+Stage 4 – Kiểm thử
+
+Viết test case
+
+Thực hiện kiểm thử
+
+Ghi nhận lỗi và sửa lỗi
+
+✔️ Phạm vi hệ thống (Scope)
+
+Để đơn giản hóa mô hình, hệ thống hiện chỉ bao gồm:
+
+Guest
+
+Admin
+
+Các vai trò sau đây không triển khai riêng biệt:
+
+nhân viên phục vụ
+
+thu ngân
+
+bếp
+
+Chức năng của các vai trò này được gộp vào Admin.
