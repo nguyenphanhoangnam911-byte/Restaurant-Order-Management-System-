@@ -1,13 +1,13 @@
-# 🍽️ Restaurant Order Management System (QR Table Ordering)
+# Restaurant Order Management System (QR Table Ordering)
 
-## 📖 Giới thiệu
+## Giới thiệu
 
 **Restaurant Order Management System** là hệ thống hỗ trợ khách hàng gọi món trực tiếp tại bàn bằng cách quét mã QR.  
 Khách có thể xem menu và đặt món; Quản trị viên có thể quản lý menu và xử lý đơn hàng.
 
 ---
 
-## 🎯 Mục tiêu dự án
+## Mục tiêu dự án
 
 - Hỗ trợ khách tự gọi món tại bàn qua QR
 - Giảm tải cho nhân viên phục vụ
@@ -16,9 +16,9 @@ Khách có thể xem menu và đặt món; Quản trị viên có thể quản l
 
 ---
 
-## 👥 Đối tượng người dùng
+## Đối tượng người dùng
 
-### 👤 Guest (Khách hàng)
+### Guest (Khách hàng)
 
 - Quét QR để truy cập menu
 - Xem danh sách món
@@ -26,7 +26,7 @@ Khách có thể xem menu và đặt món; Quản trị viên có thể quản l
 - Gửi đơn hàng
 - Xem trạng thái đơn
 
-### 👨‍💼 Admin (Quản trị viên)
+### Admin (Quản trị viên)
 
 - Đăng nhập hệ thống
 - Quản lý món ăn (thêm/sửa/xóa)
@@ -37,9 +37,9 @@ Khách có thể xem menu và đặt món; Quản trị viên có thể quản l
 
 ---
 
-## 🏗️ Chức năng hệ thống
+## Chức năng hệ thống
 
-### 📌 Guest
+### Guest
 
 - Xem menu theo danh mục
 - Xem chi tiết món ăn
@@ -52,7 +52,7 @@ Khách có thể xem menu và đặt món; Quản trị viên có thể quản l
   - Completed
   - Cancelled
 
-### 🛠️ Admin
+### Admin
 
 - Đăng nhập / đăng xuất
 - Quản lý thực đơn:
@@ -66,7 +66,7 @@ Khách có thể xem menu và đặt món; Quản trị viên có thể quản l
 
 ---
 
-## 🧰 Công nghệ sử dụng (dự kiến)
+## Công nghệ sử dụng (dự kiến)
 
 - Backend: Python / C++
 - Database: MySQL 
@@ -78,7 +78,7 @@ Khách có thể xem menu và đặt món; Quản trị viên có thể quản l
 
 ---
 
-## 🗂️ Cấu trúc thư mục dự án
+## Cấu trúc thư mục dự án
 
 ```text
 Restaurant-Order-Management-System/
