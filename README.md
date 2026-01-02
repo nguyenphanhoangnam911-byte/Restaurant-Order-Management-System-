@@ -1,123 +1,92 @@
-Restaurant Order Management System
-📌 Giới thiệu
+# 🍽️ Restaurant Order Management System (QR Table Ordering)
 
-Restaurant Order Management System là hệ thống quản lý gọi món cho nhà hàng. Khách (Guest) có thể xem menu và đặt món; Quản trị viên (Admin) có thể quản lý menu và đơn hàng.
+## 📖 Giới thiệu
 
-Dự án được thực hiện nhằm phục vụ mục tiêu học tập và thực hành phân tích – thiết kế hệ thống thông tin.
+**Restaurant Order Management System** là hệ thống hỗ trợ khách hàng gọi món trực tiếp tại bàn bằng cách quét mã QR.  
+Khách có thể xem menu và đặt món; Quản trị viên có thể quản lý menu và xử lý đơn hàng.
 
-🎯 Mục tiêu dự án
+---
 
-Xây dựng hệ thống gọi món đơn giản cho nhà hàng
+## 🎯 Mục tiêu dự án
 
-Hỗ trợ khách đặt món trực tuyến
+- Hỗ trợ khách tự gọi món tại bàn qua QR
+- Giảm tải cho nhân viên phục vụ
+- Chuẩn hóa quy trình tiếp nhận và xử lý đơn
+- Ứng dụng quy trình phát triển phần mềm chuẩn
 
-Hỗ trợ quản trị viên quản lý menu và đơn hàng
+---
 
-Áp dụng quy trình phát triển phần mềm:
+## 👥 Đối tượng người dùng
 
-phân tích yêu cầu
+### 👤 Guest (Khách hàng)
 
-thiết kế
+- Quét QR để truy cập menu
+- Xem danh sách món
+- Thêm món vào giỏ hàng
+- Gửi đơn hàng
+- Xem trạng thái đơn
 
-cài đặt
+### 👨‍💼 Admin (Quản trị viên)
 
-kiểm thử
+- Đăng nhập hệ thống
+- Quản lý món ăn (thêm/sửa/xóa)
+- Quản lý danh mục món
+- Quản lý bàn
+- Xem và xử lý đơn đặt món
+- Cập nhật trạng thái đơn
 
-👥 Đối tượng người dùng
-1. Guest (Khách hàng)
+---
 
-Xem menu món ăn
+## 🏗️ Chức năng hệ thống
 
-Xem thông tin chi tiết món
+### 📌 Guest
 
-Thêm món vào giỏ hàng
+- Xem menu theo danh mục
+- Xem chi tiết món ăn
+- Chọn số lượng
+- Thêm vào giỏ hàng
+- Xác nhận đơn đặt món
+- Theo dõi trạng thái:
+  - Pending
+  - Preparing
+  - Completed
+  - Cancelled
 
-Tạo đơn đặt món
+### 🛠️ Admin
 
-Theo dõi trạng thái đơn hàng
+- Đăng nhập / đăng xuất
+- Quản lý thực đơn:
+  - thêm món
+  - sửa món
+  - xóa món
+- Quản lý đơn hàng:
+  - xem chi tiết
+  - cập nhật trạng thái
+- Quản lý bàn ăn (QR mapping)
 
-2. Admin (Quản trị viên)
+---
 
-Đăng nhập hệ thống
+## 🧰 Công nghệ sử dụng (dự kiến)
 
-Quản lý món ăn (thêm/sửa/xóa)
+- Backend: Python / C++
+- Database: MySQL 
+- Frontend: HTML / CSS 
+- Diagram: draw.io / diagrams.net
+- Quản lý mã nguồn: GitHub
+- Kiểm thử: Excel test cases
+- Bug Tracking: Jira / GitHub Issues
 
-Quản lý danh mục món
+---
 
-Xem danh sách đơn đặt món
+## 🗂️ Cấu trúc thư mục dự án
 
-Cập nhật trạng thái đơn hàng
-
-Xem thống kê đơn hàng cơ bản
-
-🏗️ Chức năng chính của hệ thống
-Guest
-
-Xem danh sách món ăn theo danh mục
-
-Thêm món vào giỏ hàng
-
-Cập nhật số lượng món
-
-Gửi đơn hàng
-
-Nhập thông tin liên hệ/bàn
-
-Xem trạng thái đơn:
-
-Pending
-
-Preparing
-
-Completed
-
-Cancelled
-
-Admin
-
-Đăng nhập và đăng xuất
-
-Quản lý người dùng (tùy chọn)
-
-Quản lý menu:
-
-thêm món
-
-sửa món
-
-xóa món
-
-Quản lý đơn hàng:
-
-xem chi tiết đơn
-
-cập nhật trạng thái
-
-đánh dấu đã thanh toán
-
-🛠️ Công nghệ dự kiến sử dụng
-
-Ngôn ngữ lập trình: Python / Java / C++ (tùy nhóm chọn)
-
-IDE: VS Code, PyCharm, Eclipse, NetBeans
-
-Cơ sở dữ liệu: MySQL / PostgreSQL / SQLite
-
-Vẽ sơ đồ: diagrams.net (draw.io)
-
-Quản lý mã nguồn: GitHub / GitLab
-
-Viết tài liệu: Markdown / Word
-
-Kiểm thử: Excel test cases
-
-🗂️ Cấu trúc thư mục dự án (dự kiến)
+```text
 Restaurant-Order-Management-System/
 │
 ├── docs/
-│   ├── Requirement-Analysis.md
 │   ├── SRS.md
-│   ├── System-Design.md
+│   ├── Design.md
+│   ├── TestCases.xlsx
 │   └── diagrams/
 │
 ├── src/
@@ -130,62 +99,3 @@ Restaurant-Order-Management-System/
 │
 ├── README.md
 └── LICENSE
-
-📑 Các giai đoạn thực hiện dự án
-Stage 1 – Phân tích và đặc tả yêu cầu
-
-Functional Requirements
-
-Non-functional Requirements
-
-Data Flow Diagram (DFD)
-
-Use Case Diagram
-
-Class Diagram
-
-Stage 2 – Thiết kế
-
-Thiết kế giao diện người dùng
-
-Thiết kế cơ sở dữ liệu
-
-bảng
-
-khóa chính
-
-khóa ngoại
-
-Stage 3 – Cài đặt
-
-Xây dựng chương trình
-
-Kết nối cơ sở dữ liệu
-
-Triển khai chức năng chính
-
-Stage 4 – Kiểm thử
-
-Viết test case
-
-Thực hiện kiểm thử
-
-Ghi nhận lỗi và sửa lỗi
-
-✔️ Phạm vi hệ thống (Scope)
-
-Để đơn giản hóa mô hình, hệ thống hiện chỉ bao gồm:
-
-Guest
-
-Admin
-
-Các vai trò sau đây không triển khai riêng biệt:
-
-nhân viên phục vụ
-
-thu ngân
-
-bếp
-
-Chức năng của các vai trò này được gộp vào Admin.
