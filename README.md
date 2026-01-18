@@ -81,21 +81,35 @@ Khách có thể xem menu và đặt món; Quản trị viên có thể quản l
 ## Cấu trúc thư mục dự án
 
 ```text
-Restaurant-Order-Management-System/
+restaurant-order-system/
+│
+├── app/
+│   ├── __init__.py
+│   ├── app.py              # entry point
+│   │
+│   ├── models/             # DATA MODEL (map DB)
+│   │   ├── table.py
+│   │   ├── menu.py
+│   │   ├── order.py
+│   │   ├── member.py
+│   │   └── admin.py
+│   │
+│   ├── services/           # BUSINESS LOGIC
+│   │   ├── order_service.py
+│   │   ├── payment_service.py
+│   │   └── discount_service.py
+│   │
+│   ├── routes/             # CONTROLLER
+│   │   ├── guest_routes.py
+│   │   ├── member_routes.py
+│   │   └── admin_routes.py
+│   │
+│   └── database.py         # DB connection
 │
 ├── docs/
-│   ├── SRS.md
-│   ├── Design.md
-│   ├── TestCases.xlsx
+│   ├── SRS.docx / pdf
 │   └── diagrams/
 │
-├── src/
-│   ├── backend/
-│   ├── frontend/
-│   └── database/
-│
-├── sql/
-│   └── schema.sql
-│
-├── README.md
-└── LICENSE
+├── requirements.txt
+└── README.md
+
