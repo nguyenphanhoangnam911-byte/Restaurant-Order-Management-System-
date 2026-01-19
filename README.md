@@ -84,32 +84,60 @@ Khách có thể xem menu và đặt món; Quản trị viên có thể quản l
 restaurant-order-system/
 │
 ├── app/
-│   ├── __init__.py
-│   ├── app.py              # entry point
+│   ├── main.py                 # Entry point (chạy FastAPI)
 │   │
-│   ├── models/             # DATA MODEL (map DB)
+│   ├── core/                   # Cấu hình hệ thống
+│   │   ├── config.py            # DB URL, secret key, settings
+│   │   ├── database.py          # Kết nối database
+│   │   └── security.py          # Hash password, JWT (nếu có)
+│   │
+│   ├── models/                  # ORM Models (theo ERD)
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── member.py
 │   │   ├── table.py
+│   │   ├── menu_category.py
+│   │   ├── menu_item.py
+│   │   ├── order.py
+│   │   ├── order_item.py
+│   │   └── payment.py
+│   │
+│   ├── schemas/                 # Pydantic schemas (request/response)
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── member.py
 │   │   ├── menu.py
 │   │   ├── order.py
-│   │   ├── member.py
-│   │   └── admin.py
+│   │   └── payment.py
 │   │
-│   ├── services/           # BUSINESS LOGIC
+│   ├── routers/                 # API routes (FastAPI)
+│   │   ├── __init__.py
+│   │   ├── auth.py              # login member / admin
+│   │   ├── menu.py              # menu, category, item
+│   │   ├── order.py             # cart, order, status
+│   │   ├── payment.py           # payment & discount
+│   │   ├── table.py             # QR & table status
+│   │   └── admin.py             # admin management
+│   │
+│   ├── services/                # Business logic (QUAN TRỌNG)
+│   │   ├── __init__.py
 │   │   ├── order_service.py
 │   │   ├── payment_service.py
-│   │   └── discount_service.py
+│   │   ├── discount_service.py
+│   │   └── auth_service.py
 │   │
-│   ├── routes/             # CONTROLLER
-│   │   ├── guest_routes.py
-│   │   ├── member_routes.py
-│   │   └── admin_routes.py
-│   │
-│   └── database.py         # DB connection
+│   └── utils/                   # Helper functions
+│       ├── __init__.py
+│       └── qr.py                # generate / validate QR code
 │
-├── docs/
-│   ├── SRS.docx / pdf
-│   └── diagrams/
+├── alembic/                     # Migration (nâng cao – optional)
+│
+├── tests/                       # Test (nếu có)
+│   ├── test_order.py
+│   └── test_payment.py
 │
 ├── requirements.txt
+├── .env
 └── README.md
+
 
