@@ -37,14 +37,11 @@ def login():
         return jsonify({'success': True, 'name': cus.name})
     return jsonify({'success': False, 'message': 'Invalid credentials'})
 
-# 4. API ĐẶT MÓN (🔴 SỬA LỖI BÀN 1 Ở ĐÂY)
+# 4. API ĐẶT MÓN 
 @customer_bp.route('/orders', methods=['POST'])
 def place_order():
     data = request.json
-    print("📥 Dữ liệu nhận được:", data) # In ra terminal để debug
 
-    # 🔥 FIX: Ưu tiên tìm tableNumber, nếu không có thì tìm table_number
-    # Nếu cả 2 đều không có, mới chịu lấy số 0
     t_num = data.get('tableNumber') or data.get('table_number') or data.get('table_id') or 0
 
     new_order = Order(
@@ -67,5 +64,5 @@ def place_order():
         db.session.add(order_item)
     
     db.session.commit()
-    print(f"✅ Đã lưu đơn hàng Bàn {t_num} thành công!")
+    print(f" Đã lưu đơn hàng Bàn {t_num} thành công!")
     return jsonify({'success': True, 'order_id': new_order.id})
