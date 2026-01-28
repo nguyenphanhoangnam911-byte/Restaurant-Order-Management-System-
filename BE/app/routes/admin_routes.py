@@ -1,27 +1,22 @@
 from flask import Blueprint, jsonify, request
 from app.models import db, Order, OrderItem, Food, Table
-import datetime
 
 admin_bp = Blueprint('admin', __name__)
 
-# 1. API ĐĂNG NHẬP (QUAN TRỌNG ĐỂ KHÔNG BỊ LỖI KẾT NỐI)
+# --- 1. ĐĂNG NHẬP ---
 @admin_bp.route('/login', methods=['POST'])
 def login():
     data = request.json
-    username = data.get('username')
-    password = data.get('password')
-    # Tài khoản Admin mặc định
-    if username == 'admin' and password == '123456':
+    if data.get('username') == 'admin' and data.get('password') == '123456':
         return jsonify({'success': True, 'message': 'Login successful'})
     return jsonify({'success': False, 'message': 'Invalid credentials'}), 401
 
-# 2. API LẤY DỮ LIỆU DASHBOARD
+# --- 2. LẤY DỮ LIỆU DASHBOARD ---
 @admin_bp.route('/dashboard', methods=['GET'])
 def get_dashboard():
     try:
         foods = Food.query.all()
         tables = Table.query.all()
-        # Lấy đơn hàng mới nhất
         orders_db = Order.query.order_by(Order.created_at.desc()).all()
         
         orders_data = []
@@ -42,10 +37,10 @@ def get_dashboard():
             'orders': orders_data
         })
     except Exception as e:
-        print("Error:", e)
+        print(e)
         return jsonify({'foods': [], 'tables': [], 'orders': []}), 500
 
-# 3. API CẬP NHẬT TRẠNG THÁI ĐƠN HÀNG
+# --- 3. CẬP NHẬT TRẠNG THÁI ĐƠN HÀNG ---
 @admin_bp.route('/order/update-status', methods=['POST'])
 def update_order_status():
     data = request.json
@@ -54,4 +49,68 @@ def update_order_status():
         order.status = data['status']
         db.session.commit()
         return jsonify({'success': True})
-    return jsonify({'success': False, 'message': 'Order not found'}), 404
+    return jsonify({'success': False}), 404
+
+# --- 4. QUẢN LÝ MÓN ĂN (PHẦN BỊ THIẾU LÚC NÃY) ---
+@admin_bp.route('/food/add', methods=['POST'])
+def add_food():
+    data = request.json
+    new_food = Food(
+        name=data['name'],
+        price=data['price'],
+        description=data.get('description', ''),
+        image=data.get('image', ''),
+        category_id=data['categoryId']
+    )
+    db.session.add(new_food)
+    db.session.commit()
+    return jsonify({'success': True})
+
+@admin_bp.route('/food/update', methods=['POST'])
+def update_food():
+    data = request.json
+    food = Food.query.get(data['id'])
+    if food:
+        food.name = data.get('name', food.name)
+        food.price = data.get('price', food.price)
+        food.description = data.get('description', food.description)
+        food.image = data.get('image', food.image)
+        food.category_id = data.get('categoryId', food.category_id)
+        db.session.commit()
+        return jsonify({'success': True})
+    return jsonify({'success': False}), 404
+
+@admin_bp.route('/food/delete', methods=['POST'])
+def delete_food():
+    data = request.json
+    food = Food.query.get(data['id'])
+    if food:
+        db.session.delete(food)
+        db.session.commit()
+        return jsonify({'success': True})
+    return jsonify({'success': False}), 404
+
+@admin_bp.route('/table/update-status', methods=['POST'])
+def update_table_status():
+    data = request.json
+    table_id = data.get('id')
+    status = data.get('status')
+    
+    table = Table.query.get(table_id)
+    if table:
+        table.status = status
+        db.session.commit()
+        return jsonify({'success': True})
+    return jsonify({'success': False, 'message': 'Table not found'}), 404
+
+@admin_bp.route('/table/add', methods=['POST'])
+def add_table():
+    data = request.json
+    new_table = Table(
+        number=data['number'],
+        seats=data['seats'],
+        status='available'
+    )
+    db.session.add(new_table)
+    db.session.commit()
+    return jsonify({'success': True})

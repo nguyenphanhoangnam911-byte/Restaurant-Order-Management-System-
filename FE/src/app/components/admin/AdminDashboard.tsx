@@ -4,7 +4,9 @@ import { MenuManagement } from './MenuManagement';
 import { TableManagement } from './TableManagement';
 import { OrderManagement } from './OrderManagement';
 import { TransactionHistory } from './TransactionHistory';
+import { api } from '@/services/api';
 
+// --- INTERFACES ---
 interface FoodItem {
   id: string;
   name: string;
@@ -56,6 +58,7 @@ export function AdminDashboard({ foods, onLogout, onUpdateFoods, orders: incomin
   const [orders, setOrders] = useState<Order[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
+  // Cập nhật dữ liệu từ Props (Do AdminPage truyền xuống)
   useEffect(() => {
     if (incomingOrders) {
       const formattedOrders = incomingOrders.map((o: any) => ({
@@ -64,7 +67,7 @@ export function AdminDashboard({ foods, onLogout, onUpdateFoods, orders: incomin
       }));
       setOrders(formattedOrders);
 
-      // Tự động tạo lịch sử giao dịch
+      // Tự động tạo Transaction từ đơn đã served
       const finishedOrders = formattedOrders.filter((o: any) => o.status === 'served');
       const realTransactions = finishedOrders.map((o: any) => ({
         id: `TXN-${o.id}`,
@@ -83,29 +86,53 @@ export function AdminDashboard({ foods, onLogout, onUpdateFoods, orders: incomin
     }
   }, [incomingOrders, incomingTables]);
 
-  const handleUpdateTableStatus = (id: string, status: Table['status']) => {
+  // --- LOGIC XỬ LÝ (GỌI API THẬT) ---
+
+  const handleUpdateTableStatus = async (id: string, status: Table['status']) => {
     setTables(tables.map((table) => table.id === id ? { ...table, status } : table));
+    await api.updateTableStatus(id, status);
   };
 
-  // 🔥 LOGIC FIX NÚT CONFIRM (QUAN TRỌNG)
-  const handleUpdateOrderStatus = (id: string, status: Order['status']) => {
-    // 1. Cập nhật giao diện NGAY LẬP TỨC (Không chờ Server) -> Hết bị đơ
-    const updatedOrders = orders.map(o => 
-      o.id === id ? { ...o, status: status } : o
-    );
-    setOrders(updatedOrders);
+  const handleAddTable = async () => {
+    // Tự động tính số bàn tiếp theo (Ví dụ đang có bàn 1, 2 -> Tạo bàn 3)
+    const nextNumber = tables.length > 0 ? Math.max(...tables.map(t => t.number)) + 1 : 1;
+    
+    // Tạo bàn mới (Mặc định 4 ghế)
+    const newTable: Table = { 
+        id: Date.now().toString(), 
+        number: nextNumber, 
+        seats: 4, 
+        status: 'available' 
+    };
+    setTables([...tables, newTable]);
 
-    // 2. Âm thầm gửi lệnh về Server lưu lại
+    await api.addTable(newTable);
+  };
+
+  const handleUpdateOrderStatus = (id: string, status: Order['status']) => {
+    // Optimistic Update
+    setOrders(orders.map(o => o.id === id ? { ...o, status: status } : o));
+    
+    // Gọi API của cha
     if (onStatusChange) {
       onStatusChange(id, status);
     }
   };
 
-  // Các hàm xử lý món ăn
-  const handleAddFood = (food: Omit<FoodItem, 'id'>) => onUpdateFoods([...foods, { ...food, id: Date.now().toString() }]);
-  const handleUpdateFood = (id: string, updatedFood: Partial<FoodItem>) => onUpdateFoods(foods.map(f => f.id === id ? { ...f, ...updatedFood } : f));
-  const handleDeleteFood = (id: string) => onUpdateFoods(foods.filter(f => f.id !== id));
+  const handleAddFood = async (food: Omit<FoodItem, 'id'>) => {
+    await api.addFood(food);
+    // Không cần setFoods ở đây, chờ Auto-Refresh cập nhật
+  };
 
+  const handleUpdateFood = async (id: string, updatedFood: Partial<FoodItem>) => {
+    await api.updateFood({ ...updatedFood, id });
+  };
+
+  const handleDeleteFood = async (id: string) => {
+    await api.deleteFood(id);
+  };
+
+  // --- GIAO DIỆN ---
   const tabs = [
     { id: 'overview' as const, name: 'Overview', icon: <LayoutDashboard size={20} /> },
     { id: 'menu' as const, name: 'Menu Management', icon: <UtensilsCrossed size={20} /> },
@@ -147,7 +174,8 @@ export function AdminDashboard({ foods, onLogout, onUpdateFoods, orders: incomin
         {activeTab === 'overview' && (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
-            {}
+            
+            {/* 1. Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                 <div className="flex items-center justify-between mb-4">
@@ -182,14 +210,14 @@ export function AdminDashboard({ foods, onLogout, onUpdateFoods, orders: incomin
               </div>
             </div>
             
-             {/* Recent Orders - Bảng nhỏ bên dưới */}
-             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            {/* 2. Recent Orders (ĐÃ TRẢ LẠI PHẦN NÀY) */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
               <h3 className="text-lg font-bold text-gray-800 mb-4">Recent Activity</h3>
               <div className="space-y-4">
                 {orders.slice(0, 5).map(order => (
                   <div key={order.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
                     <div>
-                      <p className="font-medium text-gray-800">Order #{order.id}</p>
+                      <p className="font-medium text-gray-800">Order #{order.id} - Table {order.tableNumber}</p>
                       <p className="text-xs text-gray-500">{order.createdAt.toLocaleTimeString('vi-VN')}</p>
                     </div>
                     <span className={`px-2 py-1 rounded text-xs font-medium ${
@@ -200,15 +228,32 @@ export function AdminDashboard({ foods, onLogout, onUpdateFoods, orders: incomin
                     </span>
                   </div>
                 ))}
+                {orders.length === 0 && <p className="text-sm text-gray-500 text-center py-4">No recent activity</p>}
               </div>
             </div>
           </div>
         )}
 
-        {activeTab === 'menu' && <MenuManagement foods={foods} onAddFood={handleAddFood} onUpdateFood={handleUpdateFood} onDeleteFood={handleDeleteFood} />}
-        {activeTab === 'tables' && <TableManagement tables={tables} onUpdateTableStatus={handleUpdateTableStatus} />}
-        {activeTab === 'orders' && <OrderManagement orders={orders} onUpdateOrderStatus={handleUpdateOrderStatus} />}
-        {activeTab === 'transactions' && <TransactionHistory transactions={transactions} />}
+        {activeTab === 'menu' && (
+          <MenuManagement
+            foods={foods}
+            onAddFood={handleAddFood}
+            onUpdateFood={handleUpdateFood}
+            onDeleteFood={handleDeleteFood}
+          />
+        )}
+
+        {activeTab === 'tables' && (
+          <TableManagement tables={tables} onUpdateTableStatus={handleUpdateTableStatus} onAddTable={handleAddTable} />
+        )}
+
+        {activeTab === 'orders' && (
+          <OrderManagement orders={orders} onUpdateOrderStatus={handleUpdateOrderStatus} />
+        )}
+
+        {activeTab === 'transactions' && (
+          <TransactionHistory transactions={transactions} />
+        )}
       </main>
     </div>
   );
