@@ -106,10 +106,17 @@ def update_table_status():
 @admin_bp.route('/table/add', methods=['POST'])
 def add_table():
     data = request.json
+    
+    # Kiểm tra xem số bàn đã tồn tại chưa để tránh lỗi
+    existing_table = Table.query.filter_by(number=data['number']).first()
+    if existing_table:
+        return jsonify({'success': False, 'message': 'Bàn số này đã tồn tại'}), 400
+
     new_table = Table(
+        id=str(data.get('id', data['number'])), # Dùng luôn ID gửi lên hoặc lấy số bàn làm ID
         number=data['number'],
         seats=data['seats'],
-        status='available'
+        status='available' # Mặc định bàn mới là trống
     )
     db.session.add(new_table)
     db.session.commit()
