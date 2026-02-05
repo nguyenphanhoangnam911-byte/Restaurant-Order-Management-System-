@@ -78,66 +78,13 @@ Khách có thể xem menu và đặt món; Quản trị viên có thể quản l
 
 ---
 
-## Cấu trúc thư mục dự án
-
-```text
-restaurant-order-system/
-│
-├── app/
-│   ├── main.py                 # Entry point (chạy FastAPI)
-│   │
-│   ├── core/                   # Cấu hình hệ thống
-│   │   ├── config.py            # DB URL, secret key, settings
-│   │   ├── database.py          # Kết nối database
-│   │   └── security.py          # Hash password, JWT (nếu có)
-│   │
-│   ├── models/                  # ORM Models (theo ERD)
-│   │   ├── __init__.py
-│   │   ├── admin.py
-│   │   ├── member.py
-│   │   ├── table.py
-│   │   ├── menu_category.py
-│   │   ├── menu_item.py
-│   │   ├── order.py
-│   │   ├── order_item.py
-│   │   └── payment.py
-│   │
-│   ├── schemas/                 # Pydantic schemas (request/response)
-│   │   ├── __init__.py
-│   │   ├── admin.py
-│   │   ├── member.py
-│   │   ├── menu.py
-│   │   ├── order.py
-│   │   └── payment.py
-│   │
-│   ├── routers/                 # API routes (FastAPI)
-│   │   ├── __init__.py
-│   │   ├── auth.py              # login member / admin
-│   │   ├── menu.py              # menu, category, item
-│   │   ├── order.py             # cart, order, status
-│   │   ├── payment.py           # payment & discount
-│   │   ├── table.py             # QR & table status
-│   │   └── admin.py             # admin management
-│   │
-│   ├── services/                # Business logic (QUAN TRỌNG)
-│   │   ├── __init__.py
-│   │   ├── order_service.py
-│   │   ├── payment_service.py
-│   │   ├── discount_service.py
-│   │   └── auth_service.py
-│   │
-│   └── utils/                   # Helper functions
-│       ├── __init__.py
-│       └── qr.py                # generate / validate QR code
-│
-├── alembic/                     # Migration (nâng cao – optional)
-│
-├── tests/                       # Test (nếu có)
-│   ├── test_order.py
-│   └── test_payment.py
-│
-├── requirements.txt
-├── .env
-└── README.md
+📦 Project_Folder
+ ┣ 📂 Source Code
+ ┃ ┣ 📂 BE           # Mã nguồn Backend (Python/Flask)
+ ┃ ┣ 📂 FE           # Mã nguồn Frontend (ReactJS)
+ ┃ ┗ 📂 Database     # File Script SQL
+ ┣ 📂 Testing        # Tài liệu Test Case (Excel)
+ ┣ 📂 Deployment     # Dockerfile
+ ┗ 📜 README.md      # Hướng dẫn sử dụng
 
 
